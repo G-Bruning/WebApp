@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>Login</title>
+</head>
+<body>
+    <div class="container">
+        <h2>Login</h2>
+        <form action="/login" method="POST">
+            <input type="email" name="email" placeholder="Email" required>
+            <input type="password" name="senha" placeholder="Senha" required>
+            <button type="submit">Entrar</button>
+        </form>
+        <a href="{{ url_for('forgot_password_page') }}">Esqueceu a senha?</a>
+        
+        <!-- Botão de login com GitHub -->
+        <div style="margin-top: 20px;">
+            <p>Ou</p>
+            <a href="{{ url_for('login_github') }}">
+                <button style="background-color: #333; color: white; padding: 10px; border: none; border-radius: 5px;">
+                    Logar com GitHub
+                </button>
+            </a>
+        </div>
+    </div>
+</body>
+</html>
