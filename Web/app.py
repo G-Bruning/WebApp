@@ -225,12 +225,11 @@ def authorized_github():
     email = user_info.get('email')
     nome = user_info.get('name', 'Usuário')
     
-    # Se o e-mail estiver ausente, busque-o separadamente
     if email is None:
         email_response = github.get("/user/emails")
         if email_response.ok:
             emails = email_response.json()
-            # Procure o e-mail principal verificado
+           
             email = next((item["email"] for item in emails if item["primary"] and item["verified"]), None)
 
     if email is None:
@@ -285,7 +284,7 @@ def signup():
         cursor.execute("INSERT INTO Usuarios (email, senha, nome) VALUES (?, ?, ?)", (email, senha, nome))
         db.commit()
 
-        return jsonify({'message': 'Usário criado com sucesso'}), 200
+        return redirect(url_for('signup_page', success=True))
 
     except sqlite3.Error as e:
         return jsonify({'error': str(e)}), 500
@@ -308,7 +307,7 @@ def block_user(user_id):
     finally:
         db.close()
 
-@app.route('/forgot-password', methods=['POST'])
+@app.route('/forgot_password', methods=['POST'])
 def forgot_password():
     
     email = request.form.get('email')
@@ -331,7 +330,7 @@ def forgot_password():
         db.commit()
 
         send(email, nova_senha)
-        return jsonify({'message': 'Email de recuperação enviado com sucesso'}), 200
+        return redirect(url_for('forgot_password', success=True))
         
     except sqlite3.Error as e:
         return jsonify({'error': str(e)}), 500
